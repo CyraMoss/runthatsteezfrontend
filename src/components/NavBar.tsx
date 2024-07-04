@@ -1,7 +1,18 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
+import { CartContext } from '../context/CartContext';
 
 const Navbar: React.FC = () => {
+  const cartContext = useContext(CartContext);
+
+  if (!cartContext) {
+    return null;
+  }
+
+  const { cartItemCount } = cartContext;
+
   return (
     <nav className="bg-white shadow-md">
       <div className="container mx-auto px-6 py-3 flex justify-between items-center">
@@ -17,11 +28,13 @@ const Navbar: React.FC = () => {
           <Link to="/products" className="text-gray-600 hover:text-gray-800">
             Products
           </Link>
-          <Link to="/cart" className="text-gray-600 hover:text-gray-800">
-            Cart
-          </Link>
-          <Link to="/account" className="text-gray-600 hover:text-gray-800">
-            Account
+          <Link to="/cart" className="relative text-gray-600 hover:text-gray-800">
+            <FontAwesomeIcon icon={faShoppingCart} />
+            {cartItemCount > 0 && (
+              <span className="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full">
+                {cartItemCount}
+              </span>
+            )}
           </Link>
         </div>
         <div className="flex items-center space-x-4">
