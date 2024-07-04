@@ -17,16 +17,19 @@ const Home: React.FC = () => {
           <h2 className="text-2xl mb-4">Featured Products</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <ProductCard
+              id={1}
               image="https://via.placeholder.com/150"
               name="Product 1"
               price="$19.99"
             />
             <ProductCard
+              id={2}
               image="https://via.placeholder.com/150"
               name="Product 2"
               price="$29.99"
             />
             <ProductCard
+              id={3}
               image="https://via.placeholder.com/150"
               name="Product 3"
               price="$39.99"
