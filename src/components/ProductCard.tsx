@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import { Link } from 'react-router-dom';
 import { CartContext } from '../context/CartContext';
 
 interface ProductCardProps {
@@ -22,14 +23,18 @@ const ProductCard: React.FC<ProductCardProps> = ({ id, image, name, price }) => 
   };
 
   return (
-    <div className="bg-white shadow-md rounded-lg overflow-hidden">
-      <img src={image} alt={name} className="w-full h-48 object-cover" />
+    <div className="bg-white shadow-md rounded-lg overflow-hidden w-64">
+      <Link to={`/product/${id}`} className="block">
+        <img src={image} alt={name} className="w-full h-48 object-cover" />
+        <div className="p-4">
+          <h3 className="text-lg font-semibold">{name}</h3>
+          <p className="text-gray-600">{price}</p>
+        </div>
+      </Link>
       <div className="p-4">
-        <h3 className="text-lg font-semibold">{name}</h3>
-        <p className="text-gray-600">{price}</p>
         <button
           onClick={handleAddToCart}
-          className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-full"
+          className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-full w-full"
         >
           Add to Cart
         </button>
