@@ -3,7 +3,7 @@ import ProductCard from '../components/ProductCard';
 
 const Home: React.FC = () => {
   return (
-    <div className="bg-gray-100 min-h-screen flex flex-col items-center justify-center">
+    <div className="bg-gray-100 min-h-screen flex flex-col items-center justify-center pt-16">
       <header className="bg-white w-full py-6 shadow-md">
         <h1 className="text-4xl font-bold text-center">Welcome to RunThatSteez</h1>
       </header>
@@ -21,31 +21,31 @@ const Home: React.FC = () => {
                 id={1}
                 image="https://via.placeholder.com/150"
                 name="Product 1"
-                price="$19.99"
+                price={19.99}
               />
               <ProductCard
                 id={2}
                 image="https://via.placeholder.com/150"
                 name="Product 2"
-                price="$29.99"
+                price={29.99}
               />
               <ProductCard
                 id={3}
                 image="https://via.placeholder.com/150"
                 name="Product 3"
-                price="$39.99"
+                price={39.99}
               />
               <ProductCard
                 id={4}
                 image="https://via.placeholder.com/150"
                 name="Product 4"
-                price="$49.99"
+                price={49.99}
               />
               <ProductCard
                 id={5}
                 image="https://via.placeholder.com/150"
                 name="Product 5"
-                price="$59.99"
+                price={59.99}
               />
             </div>
           </div>

@@ -1,5 +1,8 @@
 import React, { useContext } from 'react';
+import { Link } from 'react-router-dom';
 import { CartContext } from '../context/CartContext';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash, faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
 
 const Cart: React.FC = () => {
   const cartContext = useContext(CartContext);
@@ -8,7 +11,7 @@ const Cart: React.FC = () => {
     return null;
   }
 
-  const { cart } = cartContext;
+  const { cart, increaseQuantity, decreaseQuantity, removeFromCart, cartTotalPrice } = cartContext;
 
   return (
     <div className="container mx-auto px-6 py-12">
@@ -16,19 +19,46 @@ const Cart: React.FC = () => {
       {cart.length === 0 ? (
         <p>Your cart is empty</p>
       ) : (
-        <ul>
-          {cart.map((product) => (
-            <li key={product.id} className="mb-4">
-              <div className="flex items-center">
-                <img src={product.image} alt={product.name} className="w-16 h-16 object-cover mr-4" />
-                <div>
-                  <h3 className="text-lg font-semibold">{product.name}</h3>
-                  <p className="text-gray-600">{product.price}</p>
+        <div>
+          <ul>
+            {cart.map(product => (
+              <li key={product.id} className="mb-4 flex items-center justify-between">
+                <Link to={`/product/${product.id}`} className="flex items-center">
+                  <img src={product.image} alt={product.name} className="w-16 h-16 object-cover mr-4" />
+                  <div>
+                    <h3 className="text-lg font-semibold">{product.name}</h3>
+                    <p className="text-gray-600">Unit Price: ${product.price.toFixed(2)}</p>
+                    <p className="text-gray-600">Total: ${(product.price * product.quantity).toFixed(2)}</p>
+                  </div>
+                </Link>
+                <div className="flex items-center">
+                  <button
+                    onClick={() => decreaseQuantity(product.id)}
+                    className="text-gray-600 hover:text-gray-800"
+                  >
+                    <FontAwesomeIcon icon={faMinus} />
+                  </button>
+                  <span className="mx-2">{product.quantity}</span>
+                  <button
+                    onClick={() => increaseQuantity(product.id)}
+                    className="text-gray-600 hover:text-gray-800"
+                  >
+                    <FontAwesomeIcon icon={faPlus} />
+                  </button>
+                  <button
+                    onClick={() => removeFromCart(product.id)}
+                    className="text-red-600 hover:text-red-800 ml-4"
+                  >
+                    <FontAwesomeIcon icon={faTrash} />
+                  </button>
                 </div>
-              </div>
-            </li>
-          ))}
-        </ul>
+              </li>
+            ))}
+          </ul>
+          <div className="mt-6 text-right">
+            <h3 className="text-xl font-bold">Total Price: ${cartTotalPrice.toFixed(2)}</h3>
+          </div>
+        </div>
       )}
     </div>
   );
