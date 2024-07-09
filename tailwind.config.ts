@@ -1,4 +1,7 @@
-module.exports = {
+import { withUt } from "uploadthing/tw";
+
+
+export default withUt({
   content: [
     './app/**/*.{js,ts,jsx,tsx}',
     './pages/**/*.{js,ts,jsx,tsx}',
@@ -8,4 +11,4 @@ module.exports = {
     extend: {},
   },
   plugins: [],
-};
+});

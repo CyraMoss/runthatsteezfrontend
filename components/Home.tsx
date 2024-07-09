@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import ProductCard from './ProductCard';
 import ProductList from './ProductList';
+import { UploadButton } from "../utils/uploadthing";
 
 interface Product {
   _id: string;
@@ -72,6 +72,18 @@ const Home: React.FC = () => {
           <h2 className="text-2xl mb-4">Featured Products</h2>
 
           <ProductList products={products} />
+          <UploadButton
+        endpoint="imageUploader"
+        onClientUploadComplete={(res: any) => {
+          // Do something with the response
+          console.log("Files: ", res);
+          alert("Upload Completed");
+        }}
+        onUploadError={(error: Error) => {
+          // Do something with the error.
+          alert(`ERROR! ${error.message}`);
+        }}
+      />
         </section>
       </main>
       <footer className="bg-white w-full py-6 shadow-md text-center">
