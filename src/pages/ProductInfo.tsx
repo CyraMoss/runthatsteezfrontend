@@ -1,36 +1,106 @@
-import React from 'react';
-import { useParams } from 'react-router-dom';
+// src/pages/ProductInfo.tsx
+
+import React, { useState } from 'react';
+import { createProduct } from '../services/productService';
+import FileUpload from '../components/FileUpload';
 
 const ProductInfo: React.FC = () => {
-  const { id } = useParams<{ id: string }>();
+    const [name, setName] = useState('');
+    const [price, setPrice] = useState(0);
+    const [description, setDescription] = useState('');
+    const [mainImage, setMainImage] = useState('');
+    const [additionalImages, setAdditionalImages] = useState<string[]>([]);
+    const [category, setCategory] = useState('');
+    const [brand, setBrand] = useState('');
+    const [sizes, setSizes] = useState<string[]>([]);
+    const [colors, setColors] = useState<string[]>([]);
+    const [material, setMaterial] = useState('');
+    const [stock, setStock] = useState(0);
 
-  // Dummy data for demonstration
-  const products = [
-    { id: '1', name: 'Product 1', price: 19.99, image: 'https://via.placeholder.com/150', description: 'Description for Product 1' },
-    { id: '2', name: 'Product 2', price: 29.99, image: 'https://via.placeholder.com/150', description: 'Description for Product 2' },
-    { id: '3', name: 'Product 3', price: 39.99, image: 'https://via.placeholder.com/150', description: 'Description for Product 3' },
-    { id: '4', name: 'Product 4', price: 49.99, image: 'https://via.placeholder.com/150', description: 'Description for Product 4' },
-    { id: '5', name: 'Product 5', price: 59.99, image: 'https://via.placeholder.com/150', description: 'Description for Product 5' },
-  ];
+    const handleMainImageUpload = (url: string) => {
+        setMainImage(url);
+    };
 
-  const product = products.find(p => p.id === id);
+    const handleAdditionalImageUpload = (url: string) => {
+        setAdditionalImages([...additionalImages, url]);
+    };
 
-  if (!product) {
-    return <div>Product not found</div>;
-  }
+    const handleSubmit = async () => {
+        const product = {
+            name,
+            price,
+            description,
+            mainImage,
+            additionalImages,
+            category,
+            brand,
+            sizes,
+            colors,
+            material,
+            stock
+        };
 
-  return (
-    <div className="container mx-auto px-6 py-12">
-      <div className="flex flex-col md:flex-row items-center">
-        <img src={product.image} alt={product.name} className="w-full md:w-1/2 h-auto object-cover" />
-        <div className="md:ml-6">
-          <h1 className="text-3xl font-bold mb-4">{product.name}</h1>
-          <p className="text-xl text-gray-700 mb-4">${product.price.toFixed(2)}</p>
-          <p className="text-gray-600">{product.description}</p>
+        try {
+            const createdProduct = await createProduct(product);
+            console.log('Product created:', createdProduct);
+        } catch (error) {
+            console.error('Failed to create product', error);
+        }
+    };
+
+    return (
+        <div>
+            <h1>Create Product</h1>
+            <div>
+                <label>Name:</label>
+                <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
+            </div>
+            <div>
+                <label>Price:</label>
+                <input type="number" value={price} onChange={(e) => setPrice(Number(e.target.value))} />
+            </div>
+            <div>
+                <label>Description:</label>
+                <textarea value={description} onChange={(e) => setDescription(e.target.value)}></textarea>
+            </div>
+            <div>
+                <label>Main Image:</label>
+                <FileUpload onUpload={handleMainImageUpload} />
+            </div>
+            <div>
+                <label>Additional Images:</label>
+                <FileUpload onUpload={handleAdditionalImageUpload} />
+                {additionalImages.map((url, index) => (
+                    <img key={index} src={url} alt={`Additional ${index + 1}`} />
+                ))}
+            </div>
+            <div>
+                <label>Category:</label>
+                <input type="text" value={category} onChange={(e) => setCategory(e.target.value)} />
+            </div>
+            <div>
+                <label>Brand:</label>
+                <input type="text" value={brand} onChange={(e) => setBrand(e.target.value)} />
+            </div>
+            <div>
+                <label>Sizes:</label>
+                <input type="text" value={sizes.join(', ')} onChange={(e) => setSizes(e.target.value.split(', '))} />
+            </div>
+            <div>
+                <label>Colors:</label>
+                <input type="text" value={colors.join(', ')} onChange={(e) => setColors(e.target.value.split(', '))} />
+            </div>
+            <div>
+                <label>Material:</label>
+                <input type="text" value={material} onChange={(e) => setMaterial(e.target.value)} />
+            </div>
+            <div>
+                <label>Stock:</label>
+                <input type="number" value={stock} onChange={(e) => setStock(Number(e.target.value))} />
+            </div>
+            <button onClick={handleSubmit}>Create Product</button>
         </div>
-      </div>
-    </div>
-  );
+    );
 };
 
 export default ProductInfo;

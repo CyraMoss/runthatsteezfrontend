@@ -1,5 +1,6 @@
 import React from 'react';
 import ProductCard from '../components/ProductCard';
+import ProductList from '../components/ProductList';
 
 const Home: React.FC = () => {
   return (
@@ -49,6 +50,7 @@ const Home: React.FC = () => {
               />
             </div>
           </div>
+            <ProductList/>
         </section>
       </main>
       <footer className="bg-white w-full py-6 shadow-md text-center">
