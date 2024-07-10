@@ -1,13 +1,17 @@
 'use client';
+
 import React, { useState, useContext } from 'react';
-import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShoppingCart, faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { CartContext } from '../context/CartContext';
+import { signOut, useSession, signIn, } from 'next-auth/react';
+import Link from 'next/link';
+
 
 const Navbar: React.FC = () => {
   const cartContext = useContext(CartContext);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { data: session } = useSession();
 
   if (!cartContext) {
     return null;
@@ -23,18 +27,18 @@ const Navbar: React.FC = () => {
     <nav className="bg-white shadow-md fixed w-full z-10 top-0">
       <div className="container mx-auto px-6 py-3 flex justify-between items-center">
         <div className="flex items-center">
-          <Link to="/" className="text-2xl font-bold text-gray-800">
+          <Link href="/" className="text-2xl font-bold text-gray-800">
             RunThatSteez
           </Link>
         </div>
         <div className="hidden md:flex items-center space-x-6">
-          <Link to="/" className="text-gray-600 hover:text-gray-800">
+          <Link href="/" className="text-gray-600 hover:text-gray-800">
             Home
           </Link>
-          <Link to="/products" className="text-gray-600 hover:text-gray-800">
+          <Link href="/products" className="text-gray-600 hover:text-gray-800">
             Products
           </Link>
-          <Link to="/cart" className="relative text-gray-600 hover:text-gray-800">
+          <Link href="/cart" className="relative text-gray-600 hover:text-gray-800">
             <FontAwesomeIcon icon={faShoppingCart} />
             {cartItemCount > 0 && (
               <span className="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full">
@@ -49,6 +53,16 @@ const Navbar: React.FC = () => {
             placeholder="Search..."
             className="px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
+          {session ? (
+            <>
+              <Link href="/profile">Profile</Link>
+              {session.user?.role === 'ADMIN' && <Link href="/admin">Admin</Link>}
+              <button onClick={() => signOut()}>Sign out</button>
+            </>
+          ) : (
+            <button onClick={() => signIn()}>Sign in</button>
+          )}
+
           <button className="bg-blue-500 text-white px-4 py-2 rounded-full">
             Search
           </button>
@@ -62,21 +76,21 @@ const Navbar: React.FC = () => {
       {isMenuOpen && (
         <div className="md:hidden absolute top-full left-0 w-full bg-white shadow-lg z-10">
           <Link
-            to="/"
+            href="/"
             onClick={toggleMenu}
             className="block px-4 py-2 text-gray-600 hover:bg-gray-200"
           >
             Home
           </Link>
           <Link
-            to="/products"
+            href="/products"
             onClick={toggleMenu}
             className="block px-4 py-2 text-gray-600 hover:bg-gray-200"
           >
             Products
           </Link>
           <Link
-            to="/cart"
+            href="/cart"
             onClick={toggleMenu}
             className="relative block px-4 py-2 text-gray-600 hover:bg-gray-200"
           >

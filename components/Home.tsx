@@ -1,8 +1,9 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import ProductList from './ProductList';
-import { UploadButton } from "../utils/uploadthing";
+import ProductCard from '../components/ProductCard';
+import ProductList from '../components/ProductList';
+import LoginButton from '../components/LoginButton';
 
 interface Product {
   _id: string;
@@ -19,7 +20,7 @@ const Home: React.FC = () => {
   useEffect(() => {
     async function fetchProducts() {
       try {
-        const response = await fetch('http://localhost:3000/products');
+        const response = await fetch('http://localhost:3000/products'); // Adjust the endpoint as needed
         console.log('Response from backend:', response); // Log the raw response
         if (!response.ok) {
           throw new Error('Failed to fetch products');
@@ -29,7 +30,7 @@ const Home: React.FC = () => {
 
         if (Array.isArray(data)) {
           setProducts(data);
-          console.log('Products fetched:', data);
+          console.log('Products fetched');
         } else {
           setError('Fetched data is not an array');
         }
@@ -70,20 +71,26 @@ const Home: React.FC = () => {
         </section>
         <section className="my-12 w-full px-6">
           <h2 className="text-2xl mb-4">Featured Products</h2>
-
+          <div className="overflow-x-auto">
+            <div className="flex space-x-4 w-max">
+              {Array.isArray(products) ? (
+                products.map(product => (
+                  <div key={product._id}>
+                    <ProductCard
+                      id={product._id}
+                      mainImage={product.mainImage}
+                      name={product.name}
+                      price={product.price}
+                    />
+                  </div>
+                ))
+              ) : (
+                <p>No products available</p>
+              )}
+            </div>
+          </div>
+          <LoginButton/>
           <ProductList products={products} />
-          <UploadButton
-        endpoint="imageUploader"
-        onClientUploadComplete={(res: any) => {
-          // Do something with the response
-          console.log("Files: ", res);
-          alert("Upload Completed");
-        }}
-        onUploadError={(error: Error) => {
-          // Do something with the error.
-          alert(`ERROR! ${error.message}`);
-        }}
-      />
         </section>
       </main>
       <footer className="bg-white w-full py-6 shadow-md text-center">

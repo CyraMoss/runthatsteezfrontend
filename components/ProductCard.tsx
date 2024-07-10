@@ -1,5 +1,6 @@
+'use client';
 import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { CartContext } from '../context/CartContext';
 
 interface ProductCardProps {
@@ -19,14 +20,14 @@ const ProductCard: React.FC<ProductCardProps> = ({ id, name, price, mainImage })
   const { addToCart } = cartContext;
 
   const handleAddToCart = () => {
-    addToCart({ _id : "vujy", mainImage, name, price });
+    addToCart({ _id: id, mainImage, name, price });
   };
 
   console.log('Rendering ProductCard:', { id, name, price, mainImage }); // Log product details
 
   return (
     <div className="bg-white shadow-md rounded-lg overflow-hidden w-64">
-      <Link to={`/product/${id}`} className="block">
+      <Link href={`/product/${id}`} className="block">
         <img src={mainImage} alt={name} className="w-full h-48 object-cover" />
         <div className="p-4">
           <h3 className="text-lg font-semibold">{name}</h3>

@@ -14,9 +14,9 @@ export async function fetchProductById(id: string): Promise<Product> {
 }
 
 export async function createProduct(product: Omit<Product, '_id'>): Promise<Product> {
-    const response = await axios.post(`${BASE_URL}/products`, product);
+    const response = await axios.post(`${BASE_URL}/products/`, product);
     return response.data;
-}
+  }
 
 export async function getAllProducts(): Promise<Product[]> {
     return await fetchProducts();
