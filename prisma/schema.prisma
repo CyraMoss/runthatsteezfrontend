@@ -61,9 +61,9 @@ model Rating {
 }
 
 model VerificationToken {
-  identifier String   @id @map("_id") @db.ObjectId
+  identifier String   @id @map("_id")
   token      String   @unique
   expires    DateTime
 
-  @@unique([identifier, token])
+  @@index([identifier, token], map: "VerificationToken_identifier_token_idx")
 }
