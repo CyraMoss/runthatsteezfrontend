@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { signOut, useSession, signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 
 const UserMenu = () => {
   const { data: session } = useSession();
@@ -36,7 +37,7 @@ const UserMenu = () => {
     <div className="relative">
       {session ? (
         <div className="flex items-center space-x-2">
-          <img
+          <Image
             src={session.user?.image || '/default-profile.png'}
             alt="Profile"
             className="w-8 h-8 rounded-full cursor-pointer"

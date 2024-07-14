@@ -5,6 +5,7 @@ import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { getUserById } from '../../../services/userService';
 import { User } from '../../../types/user';
+import Image from 'next/image';
 
 const Profile = () => {
   const { data: session, status } = useSession();
@@ -41,7 +42,7 @@ const Profile = () => {
   return (
     <div className="max-w-2xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
       <div className="flex items-center space-x-4">
-        <img
+        <Image
           src={user.image || 'https://static.vecteezy.com/system/resources/thumbnails/020/765/399/small/default-profile-account-unknown-icon-black-silhouette-free-vector.jpg'}
           alt="Profile"
           className="w-16 h-16 rounded-full"

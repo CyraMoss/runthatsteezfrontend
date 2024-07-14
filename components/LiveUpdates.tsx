@@ -1,14 +1,18 @@
 // src/components/LiveUpdates.tsx
 import { useEffect, useState } from 'react';
 
+type LiveData = {
+  message: string;
+};
+
 const LiveUpdates = () => {
-  const [data, setData] = useState(null);
+  const [data, setData] = useState<LiveData | null>(null);
 
   useEffect(() => {
     const ws = new WebSocket('ws://localhost:3000');
 
     ws.onmessage = (event) => {
-      const message = JSON.parse(event.data);
+      const message: LiveData = JSON.parse(event.data);
       setData(message);
     };
 

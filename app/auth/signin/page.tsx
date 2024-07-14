@@ -71,7 +71,7 @@ const SignIn = () => {
       </form>
       {error && <p className="mt-4 text-red-500">{error}</p>}
       <div className="mt-6 text-center">
-        <p>Don't have an account?</p>
+        <p>Don&apos;t have an account?</p>
         <Link href="/auth/new-user">
           <p className="text-blue-500 hover:underline">Sign up here</p>
         </Link>

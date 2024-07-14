@@ -1,16 +1,26 @@
-"use client";
+// app/auth/error/page.tsx
 
-import { useSearchParams } from "next/navigation";
-import React from "react";
+'use client';
 
-export default function Error() {
+import { Suspense } from 'react';
+import { useSearchParams } from 'next/navigation';
+
+const ErrorPage = () => {
   const searchParams = useSearchParams();
-  const error = searchParams.get("error");
+  const error = searchParams.get('error');
 
   return (
     <div>
       <h1>Error</h1>
-      <p>{error ? `Error: ${error}` : "An unknown error occurred."}</p>
+      <p>{error}</p>
     </div>
   );
-}
+};
+
+const WrappedErrorPage = () => (
+  <Suspense fallback={<div>Loading...</div>}>
+    <ErrorPage />
+  </Suspense>
+);
+
+export default WrappedErrorPage;

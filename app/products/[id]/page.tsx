@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { createProduct } from '../../../services/productService';
 import FileUpload from '../../../components/FileUpload';
 import { Product } from '../../../types/product';
+import Image from 'next/image';
 
 const ProductInfo: React.FC = () => {
     const [name, setName] = useState('');
@@ -74,7 +75,7 @@ const ProductInfo: React.FC = () => {
                 <label>Additional Images:</label>
                 <FileUpload onUpload={handleAdditionalImageUpload} />
                 {additionalImages.map((url, index) => (
-                    <img key={index} src={url} alt={`Additional ${index + 1}`} />
+                    <Image key={index} src={url} alt={`Additional ${index + 1}`} />
                 ))}
             </div>
             <div>

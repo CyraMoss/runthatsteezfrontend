@@ -1,13 +1,16 @@
 'use client';
-import { useState } from 'react';
+
+import { useState, useEffect, ChangeEvent, FormEvent } from 'react';
 import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { createProduct } from '../../services/productService';
+import { Product } from '../../types/product';
 
 const AdminPage: React.FC = () => {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const router = useRouter();
-  const [product, setProduct] = useState({
+  const [isMounted, setIsMounted] = useState(false);
+  const [product, setProduct] = useState<Omit<Product, '_id' | 'createdAt' | 'updatedAt'>>({
     name: '',
     price: 0,
     description: '',
@@ -24,15 +27,19 @@ const AdminPage: React.FC = () => {
     averageRating: 0,
   });
 
-  const handleChange = (e) => {
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setProduct((prevProduct) => ({
       ...prevProduct,
-      [name]: value,
+      [name]: name === 'price' || name === 'stock' ? +value : value,
     }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       await createProduct(product);
@@ -43,7 +50,11 @@ const AdminPage: React.FC = () => {
     }
   };
 
-  if (!session || session.user?.role !== 'ADMIN') {
+  if (status === 'loading') {
+    return <div>Loading...</div>;
+  }
+
+  if (!isMounted || !session || session.user?.role !== 'ADMIN') {
     return <div>Access Denied</div>;
   }
 
@@ -57,8 +68,8 @@ const AdminPage: React.FC = () => {
         <input type="text" name="mainImage" value={product.mainImage} onChange={handleChange} placeholder="Main Image URL" required />
         <input type="text" name="category" value={product.category} onChange={handleChange} placeholder="Category" required />
         <input type="text" name="brand" value={product.brand} onChange={handleChange} placeholder="Brand" required />
-        <input type="text" name="sizes" value={product.sizes} onChange={handleChange} placeholder="Sizes" required />
-        <input type="text" name="colors" value={product.colors} onChange={handleChange} placeholder="Colors" required />
+        <input type="text" name="sizes" value={product.sizes.join(', ')} onChange={(e) => handleChange(e as ChangeEvent<HTMLInputElement>)} placeholder="Sizes (comma separated)" required />
+        <input type="text" name="colors" value={product.colors.join(', ')} onChange={(e) => handleChange(e as ChangeEvent<HTMLInputElement>)} placeholder="Colors (comma separated)" required />
         <input type="text" name="material" value={product.material} onChange={handleChange} placeholder="Material" required />
         <input type="number" name="stock" value={product.stock} onChange={handleChange} placeholder="Stock" required />
         <button type="submit">Add Product</button>

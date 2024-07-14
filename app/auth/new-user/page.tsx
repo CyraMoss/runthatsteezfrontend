@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { UploadButton } from '../../../utils/uploadthing';
+import Image from 'next/image';
 
 const SignUp = () => {
   const [formData, setFormData] = useState({ name: '', email: '', password: '', image: '' });
@@ -100,7 +101,7 @@ const SignUp = () => {
                 />
               )}
               {formData.image && (
-                <img
+                <Image
                   src={formData.image}
                   alt="Profile"
                   className="mt-4 w-24 h-24 rounded-full object-cover"
