@@ -1,17 +1,16 @@
+// components/Navbar.tsx
 'use client';
 
 import React, { useState, useContext } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShoppingCart, faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { CartContext } from '../context/CartContext';
-import { signOut, useSession, signIn, } from 'next-auth/react';
 import Link from 'next/link';
-
+import UserMenu from './UserMenu';
 
 const Navbar: React.FC = () => {
   const cartContext = useContext(CartContext);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { data: session } = useSession();
 
   if (!cartContext) {
     return null;
@@ -53,19 +52,10 @@ const Navbar: React.FC = () => {
             placeholder="Search..."
             className="px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
-          {session ? (
-            <>
-              <Link href="/profile">Profile</Link>
-              {session.user?.role === 'ADMIN' && <Link href="/admin">Admin</Link>}
-              <button onClick={() => signOut()}>Sign out</button>
-            </>
-          ) : (
-            <button onClick={() => signIn()}>Sign in</button>
-          )}
-
           <button className="bg-blue-500 text-white px-4 py-2 rounded-full">
             Search
           </button>
+          <UserMenu />
         </div>
         <div className="md:hidden flex items-center">
           <button onClick={toggleMenu} className="text-gray-600 focus:outline-none">
@@ -110,6 +100,7 @@ const Navbar: React.FC = () => {
             <button className="w-full mt-2 bg-blue-500 text-white px-4 py-2 rounded-full">
               Search
             </button>
+            <UserMenu />
           </div>
         </div>
       )}

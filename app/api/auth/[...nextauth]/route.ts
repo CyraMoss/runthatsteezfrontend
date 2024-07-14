@@ -56,6 +56,7 @@ const handler = NextAuth({
       if (user) {
         token.id = user.id;
         token.role = user.role;
+        token.image = user.image; 
       }
       return token;
     },

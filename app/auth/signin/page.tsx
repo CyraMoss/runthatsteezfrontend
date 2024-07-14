@@ -1,11 +1,12 @@
 'use client';
 
-import { signIn } from 'next-auth/react';
-import { useState } from 'react';
+import { signIn, useSession } from 'next-auth/react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
 const SignIn = () => {
+  const { data: session, status } = useSession();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -22,9 +23,20 @@ const SignIn = () => {
     if (result?.error) {
       setError(result.error);
     } else {
-      router.push('/profile');
+      // Wait for session to be updated
+      setTimeout(() => {
+        if (session?.user?.id) {
+          router.push(`/profile/${session.user.id}`);
+        }
+      }, 500); // Adjust timeout as needed
     }
   };
+
+  useEffect(() => {
+    if (status === 'authenticated' && session?.user?.id) {
+      router.push(`/profile/${session.user.id}`);
+    }
+  }, [status, session, router]);
 
   return (
     <div className="container mx-auto p-4">
@@ -60,7 +72,7 @@ const SignIn = () => {
       {error && <p className="mt-4 text-red-500">{error}</p>}
       <div className="mt-6 text-center">
         <p>Don't have an account?</p>
-        <Link href="/auth/signup">
+        <Link href="/auth/new-user">
           <p className="text-blue-500 hover:underline">Sign up here</p>
         </Link>
       </div>

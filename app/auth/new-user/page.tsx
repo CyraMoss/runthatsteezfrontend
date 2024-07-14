@@ -2,10 +2,12 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { UploadButton } from '../../../utils/uploadthing';
 
 const SignUp = () => {
-  const [formData, setFormData] = useState({ name: '', email: '', password: '' });
+  const [formData, setFormData] = useState({ name: '', email: '', password: '', image: '' });
   const [message, setMessage] = useState('');
+  const [isUploading, setIsUploading] = useState(false);
   const router = useRouter();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -15,6 +17,10 @@ const SignUp = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!formData.image) {
+      formData.image = 'https://utfs.io/f/90e0e042-4d26-4f7a-a0e5-296d2f870164-pset3e.png';
+    }
+
     const res = await fetch('/api/signup', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -26,6 +32,17 @@ const SignUp = () => {
     } else {
       setMessage('Sign up failed. Please try again.');
     }
+  };
+
+  const handleUploadComplete = (url: string) => {
+    setFormData({ ...formData, image: url });
+    setIsUploading(false);
+    alert("Upload Completed");
+  };
+
+  const handleUploadError = (error: Error) => {
+    setIsUploading(false);
+    alert(`ERROR! ${error.message}`);
   };
 
   return (
@@ -69,11 +86,33 @@ const SignUp = () => {
                 className="w-full p-2 border border-gray-300 rounded"
               />
             </div>
+            <div>
+              <label className="block mb-2 text-sm font-medium text-gray-700">Profile Image:</label>
+              {!formData.image && (
+                <UploadButton
+                  endpoint="imageUploader"
+                  onClientUploadComplete={(res) => {
+                    if (res && res.length > 0) {
+                      handleUploadComplete(res[0].url);
+                    }
+                  }}
+                  onUploadError={handleUploadError}
+                />
+              )}
+              {formData.image && (
+                <img
+                  src={formData.image}
+                  alt="Profile"
+                  className="mt-4 w-24 h-24 rounded-full object-cover"
+                />
+              )}
+            </div>
             <button
               type="submit"
               className="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
+              disabled={isUploading}
             >
-              Sign Up
+              {isUploading ? 'Uploading...' : 'Sign Up'}
             </button>
           </form>
         )}
