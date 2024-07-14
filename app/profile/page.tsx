@@ -48,7 +48,7 @@ const Profile = () => {
         <div>
           <h1 className="text-2xl font-bold">Welcome, {user.name}</h1>
           <p className="text-gray-600">Email: {user.email}</p>
-          <p className="text-gray-600">Role: {user.role}</p>
+          <p className="text-gray-600">Roles: {user.role}</p>
         </div>
       </div>
     </div>

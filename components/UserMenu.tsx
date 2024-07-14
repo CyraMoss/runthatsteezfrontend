@@ -1,6 +1,4 @@
-'use client';
-
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { signOut, useSession, signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
@@ -9,6 +7,13 @@ const UserMenu = () => {
   const { data: session } = useSession();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const router = useRouter();
+  const [userId, setUserId] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (session?.user?.id) {
+      setUserId(session.user.id);
+    }
+  }, [session]);
 
   const toggleDropdown = () => {
     console.log("session for image", session?.user?.image);
@@ -19,6 +24,12 @@ const UserMenu = () => {
   const handleSignOut = () => {
     signOut();
     router.push('/');
+  };
+
+  const handleProfileClick = () => {
+    if (userId) {
+      router.push(`/profile/${userId}`);
+    }
   };
 
   return (
@@ -33,9 +44,9 @@ const UserMenu = () => {
           />
           {isDropdownOpen && (
             <div className="absolute right-0 mt-44 w-48 bg-white border border-gray-200 rounded-md shadow-lg z-10">
-              <Link href="/profile" className="block px-4 py-2 text-gray-800 hover:bg-gray-100">
+              <button onClick={handleProfileClick} className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-100">
                 Profile
-              </Link>
+              </button>
               <Link href="/customerOrders" className="block px-4 py-2 text-gray-800 hover:bg-gray-100">
                 Orders
               </Link>
