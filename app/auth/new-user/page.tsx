@@ -105,6 +105,8 @@ const SignUp = () => {
                   src={formData.image}
                   alt="Profile"
                   className="mt-4 w-24 h-24 rounded-full object-cover"
+            width={24}
+            height={24}
                 />
               )}
             </div>

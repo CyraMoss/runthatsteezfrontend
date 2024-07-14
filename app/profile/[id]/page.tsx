@@ -46,6 +46,8 @@ const Profile = () => {
           src={user.image || 'https://static.vecteezy.com/system/resources/thumbnails/020/765/399/small/default-profile-account-unknown-icon-black-silhouette-free-vector.jpg'}
           alt="Profile"
           className="w-16 h-16 rounded-full"
+            width={24}
+            height={24}
         />
         <div>
           <h1 className="text-2xl font-bold">Welcome, {user.name}</h1>

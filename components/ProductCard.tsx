@@ -29,7 +29,12 @@ const ProductCard: React.FC<ProductCardProps> = ({ id, name, price, mainImage })
   return (
     <div className="bg-white shadow-md rounded-lg overflow-hidden w-64">
       <Link href={`/product/${id}`} className="block">
-        <Image src={mainImage} alt={name} className="w-full h-48 object-cover" />
+        <Image 
+        src={mainImage} 
+        alt={name} 
+        className="w-full h-48 object-cover"
+        width={24}
+        height={24} />
         <div className="p-4">
           <h3 className="text-lg font-semibold">{name}</h3>
           <p className="text-gray-600">${price.toFixed(2)}</p>

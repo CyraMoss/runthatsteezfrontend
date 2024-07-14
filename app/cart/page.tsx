@@ -26,7 +26,9 @@ const Cart: React.FC = () => {
             {cart.map(product => (
               <li key={product._id} className="mb-4 flex items-center justify-between">
                 <Link href={`/product/${product._id}`} className="flex items-center">
-                  <Image src={product.mainImage} alt={product.name} className="w-16 h-16 object-cover mr-4" />
+                  <Image src={product.mainImage} alt={product.name} className="w-16 h-16 object-cover mr-4" 
+            width={24}
+            height={24}/>
                   <div>
                     <h3 className="text-lg font-semibold">{product.name}</h3>
                     <p className="text-gray-600">Unit Price: ${product.price.toFixed(2)}</p>

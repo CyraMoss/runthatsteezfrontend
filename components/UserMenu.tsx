@@ -42,6 +42,8 @@ const UserMenu = () => {
             alt="Profile"
             className="w-8 h-8 rounded-full cursor-pointer"
             onClick={toggleDropdown}
+            width={24}
+            height={24}
           />
           {isDropdownOpen && (
             <div className="absolute right-0 mt-44 w-48 bg-white border border-gray-200 rounded-md shadow-lg z-10">
