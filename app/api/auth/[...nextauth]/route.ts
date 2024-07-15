@@ -4,6 +4,7 @@ import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcryptjs';
 
+// Initialize Prisma Client as a singleton
 const prisma = new PrismaClient();
 
 const handler = NextAuth({
@@ -56,7 +57,7 @@ const handler = NextAuth({
       if (user) {
         token.id = user.id;
         token.role = user.role;
-        token.image = user.image; 
+        token.image = user.image;
       }
       return token;
     },
@@ -68,7 +69,7 @@ const handler = NextAuth({
       return session;
     },
   },
-  debug: true,
+  debug: process.env.NODE_ENV === 'development',
 });
 
 export { handler as GET, handler as POST };

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { User } from '../types/user';
 
-const BASE_URL = 'http://localhost:3000';
+const BASE_URL = 'https://runthatsteez.vercel.app/';
 
 export async function fetchUsers(): Promise<User[]> {
     const response = await axios.get(`${BASE_URL}/user`);

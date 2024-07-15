@@ -20,7 +20,7 @@ const Home: React.FC = () => {
   useEffect(() => {
     async function fetchProducts() {
       try {
-        const response = await fetch('http://localhost:3000/product'); // Adjust the endpoint as needed
+        const response = await fetch('https://runthatsteez.vercel.app/product'); // Adjust the endpoint as needed
         console.log('Response from backend:', response); // Log the raw response
         if (!response.ok) {
           throw new Error('Failed to fetch products');
