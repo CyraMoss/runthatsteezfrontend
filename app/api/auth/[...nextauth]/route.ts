@@ -1,7 +1,7 @@
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
-import { prisma } from '../../../../lib/prisma'; // Adjust the import path according to your structure
+import prisma from '../../../../lib/prisma'; // Import the singleton Prisma client
 import bcrypt from 'bcryptjs';
 
 const handler = NextAuth({
@@ -14,34 +14,26 @@ const handler = NextAuth({
       },
       async authorize(credentials) {
         if (!credentials) {
-          console.log('No credentials provided');
           throw new Error('No credentials provided');
         }
-      
+
         const { email, password } = credentials;
-      
-        console.log('Connecting to database...');
+
         const user = await prisma.user.findUnique({
           where: { email },
         });
-      
+
         if (!user) {
-          console.log(`No user found with email: ${email}`);
           throw new Error('No user found with this email');
         }
-      
+
         const isValid = await bcrypt.compare(password, user.password);
         if (!isValid) {
-          console.log('Invalid password');
           throw new Error('Invalid password');
         }
-      
-        console.log('User authorized:', user);
-      
-        // Return user object
+
         return user;
-      }
-      
+      },
     }),
   ],
   pages: {
