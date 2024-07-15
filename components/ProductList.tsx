@@ -33,8 +33,8 @@ const ProductList: React.FC<ProductListProps> = ({ products }) => {
         <div key={product._id} className="bg-white shadow-md rounded-lg overflow-hidden w-64">
           <Image 
           src={product.mainImage} 
-            width={24}
-            height={24} 
+            width={84}
+            height={84} 
             alt={product.name} 
             className="w-full h-48 object-cover" />
           <div className="p-4">
