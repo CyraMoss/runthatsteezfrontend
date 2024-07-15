@@ -1,13 +1,18 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { UploadButton } from '../../../utils/uploadthing';
-import Image from 'next/image';
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { UploadButton } from "../../../utils/uploadthing";
+import Image from "next/image";
 
 const SignUp = () => {
-  const [formData, setFormData] = useState({ name: '', email: '', password: '', image: '' });
-  const [message, setMessage] = useState('');
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    image: "",
+  });
+  const [message, setMessage] = useState("");
   const [isUploading, setIsUploading] = useState(false);
   const router = useRouter();
 
@@ -19,19 +24,20 @@ const SignUp = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.image) {
-      formData.image = 'https://utfs.io/f/90e0e042-4d26-4f7a-a0e5-296d2f870164-pset3e.png';
+      formData.image =
+        "https://utfs.io/f/90e0e042-4d26-4f7a-a0e5-296d2f870164-pset3e.png";
     }
 
-    const res = await fetch('/api/signup', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+    const res = await fetch("/api/signup", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(formData),
     });
 
     if (res.ok) {
-      setMessage('Verification email sent, go back to login to continue.');
+      setMessage("Verification email sent, go back to login to continue.");
     } else {
-      setMessage('Sign up failed. Please try again.');
+      setMessage("Sign up failed. Please try again.");
     }
   };
 
@@ -55,7 +61,9 @@ const SignUp = () => {
         ) : (
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block mb-2 text-sm font-medium text-gray-700">Name:</label>
+              <label className="block mb-2 text-sm font-medium text-gray-700">
+                Name:
+              </label>
               <input
                 type="text"
                 name="name"
@@ -66,7 +74,9 @@ const SignUp = () => {
               />
             </div>
             <div>
-              <label className="block mb-2 text-sm font-medium text-gray-700">Email:</label>
+              <label className="block mb-2 text-sm font-medium text-gray-700">
+                Email:
+              </label>
               <input
                 type="email"
                 name="email"
@@ -77,7 +87,9 @@ const SignUp = () => {
               />
             </div>
             <div>
-              <label className="block mb-2 text-sm font-medium text-gray-700">Password:</label>
+              <label className="block mb-2 text-sm font-medium text-gray-700">
+                Password:
+              </label>
               <input
                 type="password"
                 name="password"
@@ -88,7 +100,9 @@ const SignUp = () => {
               />
             </div>
             <div>
-              <label className="block mb-2 text-sm font-medium text-gray-700">Profile Image:</label>
+              <label className="block mb-2 text-sm font-medium text-gray-700">
+                Profile Image:
+              </label>
               {!formData.image && (
                 <UploadButton
                   endpoint="imageUploader"
@@ -105,8 +119,8 @@ const SignUp = () => {
                   src={formData.image}
                   alt="Profile"
                   className="mt-4 w-24 h-24 rounded-full object-cover"
-            width={24}
-            height={24}
+                  width={24}
+                  height={24}
                 />
               )}
             </div>
@@ -115,14 +129,14 @@ const SignUp = () => {
               className="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
               disabled={isUploading}
             >
-              {isUploading ? 'Uploading...' : 'Sign Up'}
+              {isUploading ? "Uploading..." : "Sign Up"}
             </button>
           </form>
         )}
         {message && (
           <div className="text-center mt-4">
             <button
-              onClick={() => router.push('/auth/signin')}
+              onClick={() => router.push("/auth/signin")}
               className="text-blue-500 hover:underline"
             >
               Go back to sign in

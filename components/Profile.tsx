@@ -1,4 +1,4 @@
-import { useSession } from 'next-auth/react';
+import { useSession } from "next-auth/react";
 
 const Profile: React.FC = () => {
   const { data: session } = useSession();

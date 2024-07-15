@@ -1,10 +1,11 @@
 module.exports = {
   root: true,
-  parser: '@babel/eslint-parser',
+  parser: '@typescript-eslint/parser',
   parserOptions: {
-    requireConfigFile: false,
-    babelOptions: {
-      presets: ['@babel/preset-env', '@babel/preset-react'],
+    ecmaVersion: 2020,
+    sourceType: 'module',
+    ecmaFeatures: {
+      jsx: true,
     },
   },
   settings: {
@@ -22,16 +23,13 @@ module.exports = {
     'eslint:recommended',
     'plugin:react/recommended',
     'plugin:@typescript-eslint/recommended',
-    'plugin:prettier/recommended',
+    'next',
     'next/core-web-vitals',
+    'plugin:prettier/recommended',  // Ensures Prettier runs last
   ],
   plugins: ['react', '@typescript-eslint', 'prettier'],
   rules: {
-    'prettier/prettier': ['error', {}, { usePrettierrc: true }],
     'react/react-in-jsx-scope': 'off',
-    'react/prop-types': 'off',
-    'jsx-a11y/accessible-emoji': 'off',
-    '@typescript-eslint/no-var-requires': 0,
-    '@typescript-eslint/explicit-module-boundary-types': 'off',
+    'prettier/prettier': 'error',  // Ensures Prettier errors are shown
   },
 };

@@ -1,4 +1,4 @@
-import nodemailer, { SendMailOptions } from 'nodemailer';
+import nodemailer, { SendMailOptions } from "nodemailer";
 
 const transporter = nodemailer.createTransport({
   host: process.env.EMAIL_SERVER_HOST,

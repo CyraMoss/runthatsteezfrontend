@@ -1,5 +1,5 @@
-import { signIn, signOut, useSession } from 'next-auth/react';
-import React from 'react';
+import { signIn, signOut, useSession } from "next-auth/react";
+import React from "react";
 
 const Header: React.FC = () => {
   const { data: session } = useSession();

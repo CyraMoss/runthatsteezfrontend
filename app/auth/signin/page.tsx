@@ -1,28 +1,30 @@
-'use client';
+"use client";
 
-import { signIn, useSession } from 'next-auth/react';
-import { useState, useEffect } from 'react';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { signIn, useSession } from "next-auth/react";
+import { useState, useEffect } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const SignIn = () => {
   const { data: session, status } = useSession();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const result = await signIn('credentials', {
+    const result = await signIn("credentials", {
       redirect: false,
       email,
       password,
     });
 
     if (result?.error) {
+      console.log("Error: ", result);
       setError(result.error);
     } else {
+      console.log("Success");
       // Wait for session to be updated
       setTimeout(() => {
         if (session?.user?.id) {
@@ -33,7 +35,7 @@ const SignIn = () => {
   };
 
   useEffect(() => {
-    if (status === 'authenticated' && session?.user?.id) {
+    if (status === "authenticated" && session?.user?.id) {
       router.push(`/profile/${session.user.id}`);
     }
   }, [status, session, router]);
@@ -43,7 +45,9 @@ const SignIn = () => {
       <h1 className="text-2xl mb-4">Sign In</h1>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="block text-sm font-medium text-gray-700">Email:</label>
+          <label className="block text-sm font-medium text-gray-700">
+            Email:
+          </label>
           <input
             type="email"
             value={email}
@@ -53,7 +57,9 @@ const SignIn = () => {
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700">Password:</label>
+          <label className="block text-sm font-medium text-gray-700">
+            Password:
+          </label>
           <input
             type="password"
             value={password}

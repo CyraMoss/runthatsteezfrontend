@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import React from 'react';
-import Home from '../components/Home';
+import React from "react";
+import Home from "../components/Home";
 
 const Page: React.FC = () => {
   return <Home />;

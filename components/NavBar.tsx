@@ -1,12 +1,16 @@
 // components/Navbar.tsx
-'use client';
+"use client";
 
-import React, { useState, useContext } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faShoppingCart, faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
-import { CartContext } from '../context/CartContext';
-import Link from 'next/link';
-import UserMenu from './UserMenu';
+import React, { useState, useContext } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faShoppingCart,
+  faBars,
+  faTimes,
+} from "@fortawesome/free-solid-svg-icons";
+import { CartContext } from "../context/CartContext";
+import Link from "next/link";
+import UserMenu from "./UserMenu";
 
 const Navbar: React.FC = () => {
   const cartContext = useContext(CartContext);
@@ -37,7 +41,10 @@ const Navbar: React.FC = () => {
           <Link href="/products" className="text-gray-600 hover:text-gray-800">
             Products
           </Link>
-          <Link href="/cart" className="relative text-gray-600 hover:text-gray-800">
+          <Link
+            href="/cart"
+            className="relative text-gray-600 hover:text-gray-800"
+          >
             <FontAwesomeIcon icon={faShoppingCart} />
             {cartItemCount > 0 && (
               <span className="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full">
@@ -58,7 +65,10 @@ const Navbar: React.FC = () => {
           <UserMenu />
         </div>
         <div className="md:hidden flex items-center">
-          <button onClick={toggleMenu} className="text-gray-600 focus:outline-none">
+          <button
+            onClick={toggleMenu}
+            className="text-gray-600 focus:outline-none"
+          >
             <FontAwesomeIcon icon={isMenuOpen ? faTimes : faBars} />
           </button>
         </div>

@@ -1,20 +1,24 @@
-import NextAuth from 'next-auth';
-import CredentialsProvider from 'next-auth/providers/credentials';
-import { PrismaAdapter } from '@next-auth/prisma-adapter';
-import prisma from '../../../../lib/prisma'; // Import the singleton Prisma client
-import bcrypt from 'bcryptjs';
+import NextAuth from "next-auth";
+import CredentialsProvider from "next-auth/providers/credentials";
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
+import prisma from "../../../../lib/prisma"; // Import the singleton Prisma client
+import bcrypt from "bcryptjs";
 
 const handler = NextAuth({
   providers: [
     CredentialsProvider({
-      name: 'Credentials',
+      name: "Credentials",
       credentials: {
-        email: { label: 'Email', type: 'email', placeholder: 'john.doe@example.com' },
-        password: { label: 'Password', type: 'password' },
+        email: {
+          label: "Email",
+          type: "email",
+          placeholder: "john.doe@example.com",
+        },
+        password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
         if (!credentials) {
-          throw new Error('No credentials provided');
+          throw new Error("No credentials provided");
         }
 
         const { email, password } = credentials;
@@ -24,12 +28,12 @@ const handler = NextAuth({
         });
 
         if (!user) {
-          throw new Error('No user found with this email');
+          throw new Error("No user found with this email");
         }
 
         const isValid = await bcrypt.compare(password, user.password);
         if (!isValid) {
-          throw new Error('Invalid password');
+          throw new Error("Invalid password");
         }
 
         return user;
@@ -37,16 +41,16 @@ const handler = NextAuth({
     }),
   ],
   pages: {
-    signIn: '/auth/signin',
-    signOut: '/auth/signout',
-    error: '/auth/error',
-    verifyRequest: '/auth/verify-request',
-    newUser: '/auth/new-user',
+    signIn: "/auth/signin",
+    signOut: "/auth/signout",
+    error: "/auth/error",
+    verifyRequest: "/auth/verify-request",
+    newUser: "/auth/new-user",
   },
   adapter: PrismaAdapter(prisma),
   secret: process.env.NEXTAUTH_SECRET,
   session: {
-    strategy: 'jwt',
+    strategy: "jwt",
   },
   callbacks: {
     async jwt({ token, user }) {
@@ -65,7 +69,7 @@ const handler = NextAuth({
       return session;
     },
   },
-  debug: process.env.NODE_ENV === 'development',
+  debug: process.env.NODE_ENV === "development",
 });
 
 export { handler as GET, handler as POST };

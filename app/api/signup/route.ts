@@ -1,6 +1,6 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { PrismaClient } from '@prisma/client';
-import bcrypt from 'bcryptjs';
+import { NextRequest, NextResponse } from "next/server";
+import { PrismaClient } from "@prisma/client";
+import bcrypt from "bcryptjs";
 
 const prisma = new PrismaClient();
 
@@ -14,14 +14,17 @@ export async function POST(req: NextRequest) {
         name,
         email,
         password: hashedPassword,
-        image
+        image,
       },
     });
 
     return NextResponse.json(newUser, { status: 201 });
   } catch (error) {
-    console.error('Error creating user:', error);
-    return NextResponse.json({ error: 'User creation failed' }, { status: 500 });
+    console.error("Error creating user:", error);
+    return NextResponse.json(
+      { error: "User creation failed" },
+      { status: 500 },
+    );
   }
 }
 

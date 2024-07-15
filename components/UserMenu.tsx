@@ -1,8 +1,8 @@
-import { useState, useEffect } from 'react';
-import { signOut, useSession, signIn } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
-import Link from 'next/link';
-import Image from 'next/image';
+import { useState, useEffect } from "react";
+import { signOut, useSession, signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import Image from "next/image";
 
 const UserMenu = () => {
   const { data: session } = useSession();
@@ -24,7 +24,7 @@ const UserMenu = () => {
 
   const handleSignOut = () => {
     signOut();
-    router.push('/');
+    router.push("/");
   };
 
   const handleProfileClick = () => {
@@ -38,7 +38,7 @@ const UserMenu = () => {
       {session ? (
         <div className="flex items-center space-x-2">
           <Image
-            src={session.user?.image || '/default-profile.png'}
+            src={session.user?.image || "/default-profile.png"}
             alt="Profile"
             className="w-8 h-8 rounded-full cursor-pointer"
             onClick={toggleDropdown}
@@ -47,14 +47,23 @@ const UserMenu = () => {
           />
           {isDropdownOpen && (
             <div className="absolute right-0 mt-44 w-48 bg-white border border-gray-200 rounded-md shadow-lg z-10">
-              <button onClick={handleProfileClick} className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-100">
+              <button
+                onClick={handleProfileClick}
+                className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-100"
+              >
                 Profile
               </button>
-              <Link href="/customerOrders" className="block px-4 py-2 text-gray-800 hover:bg-gray-100">
+              <Link
+                href="/customerOrders"
+                className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+              >
                 Orders
               </Link>
-              {session.user?.role === 'ADMIN' && (
-                <Link href="/admin" className="block px-4 py-2 text-gray-800 hover:bg-gray-100">
+              {session.user?.role === "ADMIN" && (
+                <Link
+                  href="/admin"
+                  className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+                >
                   Admin
                 </Link>
               )}
@@ -68,7 +77,10 @@ const UserMenu = () => {
           )}
         </div>
       ) : (
-        <button onClick={() => signIn()} className="text-gray-600 hover:text-gray-800">
+        <button
+          onClick={() => signIn()}
+          className="text-gray-600 hover:text-gray-800"
+        >
           Sign in
         </button>
       )}

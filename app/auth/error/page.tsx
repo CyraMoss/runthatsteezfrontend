@@ -1,13 +1,13 @@
 // app/auth/error/page.tsx
 
-'use client';
+"use client";
 
-import { Suspense } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 
 const ErrorPage = () => {
   const searchParams = useSearchParams();
-  const error = searchParams.get('error');
+  const error = searchParams.get("error");
 
   return (
     <div>
