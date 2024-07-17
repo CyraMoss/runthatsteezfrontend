@@ -18,23 +18,26 @@ const SignIn = () => {
       redirect: false,
       email,
       password,
+      callbackUrl: "http://localhost:3001",
     });
 
     if (result?.error) {
       console.log("Error: ", result);
       setError(result.error);
     } else {
+      console.log("result", result);
+      console.log("session status: ", status);
+      console.log("session data:" , session)
+      if (session?.user?.id) {
       console.log("Success");
-      // Wait for session to be updated
-      setTimeout(() => {
-        if (session?.user?.id) {
-          router.push(`/profile/${session.user.id}`);
-        }
-      }, 500); // Adjust timeout as needed
+        router.push(`/profile/${session.user.id}`);
+      }
     }
   };
 
   useEffect(() => {
+    console.log("Session status:", status);
+    console.log("Session data:", session);
     if (status === "authenticated" && session?.user?.id) {
       router.push(`/profile/${session.user.id}`);
     }
@@ -87,3 +90,6 @@ const SignIn = () => {
 };
 
 export default SignIn;
+
+
+

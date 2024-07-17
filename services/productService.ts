@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Product } from "../types/product";
 
-const BASE_URL = "https://runthatsteez.vercel.app/";
+const BASE_URL = "https://runthatsteez.vercel.app";
 
 export async function fetchProducts(): Promise<Product[]> {
   const response = await axios.get(`${BASE_URL}/product`);
