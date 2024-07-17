@@ -18,7 +18,7 @@ const SignIn = () => {
       redirect: false,
       email,
       password,
-      callbackUrl: "http://localhost:3001",
+      callbackUrl: "https://runthatsteez.vercel.app",
     });
 
     if (result?.error) {
@@ -27,9 +27,9 @@ const SignIn = () => {
     } else {
       console.log("result", result);
       console.log("session status: ", status);
-      console.log("session data:" , session)
-      if (session?.user?.id) {
-      console.log("Success");
+      console.log("session data:", session)
+        if (session?.user?.id) {
+        console.log("Success");
         router.push(`/profile/${session.user.id}`);
       }
     }
@@ -90,6 +90,3 @@ const SignIn = () => {
 };
 
 export default SignIn;
-
-
-
